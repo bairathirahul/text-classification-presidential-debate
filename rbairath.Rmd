@@ -1,0 +1,58 @@
+---
+title: "Assignment 4"
+author: "Rahul Bairathi"
+date: "26 October 2017"
+output: html_document
+---
+
+### Solution 3
+
+The following visualization is based on the presidential debate 2016. Here, I have prepared word clouds for each speaker based on the 20 most frequent words they have used. 
+
+#### Excluding Stop Words
+```{r, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+  library(rjson)
+  library(wordcloud)
+
+  # Read words from the JSON file
+  data = fromJSON(file = 'mnbc_wo_stop.json')
+  
+  # Loop on each speaker
+  for(speaker in ls(data)) {
+    words = c()
+    freq = c()
+    # Read words and frequncy for every speaker
+    for(word in ls(data[[speaker]])) {
+      words = c(words, word)
+      freq = c(freq, data[[speaker]][[word]])
+    }
+    cat(paste('#####', speaker, '\n'))
+    # Generate wordcloud for every speaker
+    wordcloud(words = words, freq = freq, min.freq = 1, scale=c(4, .2))
+    cat('\n---\n')
+  }
+```
+
+#### Including Stop Words
+```{r, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+  library(rjson)
+  library(wordcloud)
+
+  # Read words from the JSON file
+  data = fromJSON(file = 'mnbc.json')
+  
+  # Loop on each speaker
+  for(speaker in ls(data)) {
+    words = c()
+    freq = c()
+    # Read words and frequncy for every speaker
+    for(word in ls(data[[speaker]])) {
+      words = c(words, word)
+      freq = c(freq, data[[speaker]][[word]])
+    }
+    cat(paste('#####', speaker, '\n'))
+    # Generate wordcloud for every speaker
+    wordcloud(words = words, freq = freq, min.freq = 1, scale=c(5, .2))
+    cat('\n---\n')
+  }
+```
